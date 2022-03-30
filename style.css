@@ -1,0 +1,123 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.title {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.title h1 {
+    font-weight: bolder;
+    font-size: 40px;
+    text-shadow: 5px 5px 10px rgb(46, 218, 241);
+}
+
+.main-content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.table-content {
+    width: 15vw;
+    flex-grow: 2;
+    margin-left: 20px;
+    text-align: center;
+    /* background-color: rgb(148, 143, 143); */
+}
+
+.menu-content {
+    width: 40vw;
+    height: 90vh;
+    flex-grow: 10;
+    margin-right: 20px;
+    /* text-align: center; */
+    /* background-color: rgb(233, 188, 188); */
+}
+
+.table-title h2 {
+    font-size: 35px;
+    font-weight: bolder;
+    text-align: center;
+    color: #0f00e1;
+}
+
+.table-title h2:hover {
+    text-shadow: 3px 3px 7px rgb(62, 125, 241);
+}
+
+.search-bar-table{
+    text-align: center;
+    margin: 15px;
+}
+
+#search-table {
+    width: 250px;
+    height: 50px;
+    border-radius: 5px;
+    box-shadow: 2px 5px #5f5f5f;
+    padding: 10px;
+    font-size: 20px;
+}
+
+.table {
+    border: 2px;
+    padding: 10px 20px;
+    margin: 20px 10px;
+    font-size: 20px;
+    border-radius: 10px;
+    color: black;
+    background-color: #24dfc5;
+    height: 120px;
+}
+
+.table:hover {
+    box-shadow: 3px 3px 7px #24dfc5;
+}
+
+.menu-title h2 {
+    font-size: 35px;
+    font-weight: bolder;
+    text-align: center;
+    color: #0f00e1;
+}
+
+.menu-title h2:hover {
+    text-shadow: 3px 3px 7px rgb(62, 125, 241);
+}
+
+.search-bar-menu{
+    text-align: center;
+    margin: 15px;
+}
+
+#search-menu {
+    width: 700px;
+    height: 50px;
+    border-radius:8px;
+    box-shadow: 2px 5px #5f5f5f;
+    padding: 10px;
+    font-size: 20px;
+}
+
+.menu {
+    border: 2px solid #24dfc5;
+    box-shadow: 4px 8px #24dfc5;
+    padding: 10px 20px;
+    margin: 20px 10px;
+    font-size: 20px;
+    border-radius: 15px;
+
+    color: black;
+}
+
+.menu p {
+    color: #24dfc5;
+}
+
+.menu h2 {
+    color: rgb(59, 53, 53)
+}
