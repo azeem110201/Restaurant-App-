@@ -138,10 +138,10 @@ const tableData = {
     },
 }
 
-document.getElementById("table1").innerHTML = "Rs." + tableData.table1.totalPrice() + " " + "| " + tableData.table1.totalItems() + " items";
-document.getElementById("table2").innerHTML = "Rs." + tableData.table2.totalPrice() + " " + "| " + tableData.table2.totalItems() + " items";
-document.getElementById("table3").innerHTML = "Rs." + tableData.table3.totalPrice() + " " + "| " + tableData.table3.totalItems() + " items";
-document.getElementById("table4").innerHTML = "Rs." + tableData.table4.totalPrice() + " " + "| " + tableData.table4.totalItems() + " items";
+document.getElementById("table1").innerHTML = `Rs: ${tableData.table1.totalPrice()} | ${tableData.table1.totalItems()} items`;
+document.getElementById("table2").innerHTML = `Rs: ${tableData.table2.totalPrice()} | ${tableData.table2.totalItems()} items`;
+document.getElementById("table3").innerHTML = `Rs: ${tableData.table3.totalPrice()} | ${tableData.table3.totalItems()} items`;
+document.getElementById("table4").innerHTML = `Rs: ${tableData.table4.totalPrice()} | ${tableData.table4.totalItems()} items`;
 
 // Rendering the menu items
 let menuId = 0;
@@ -151,7 +151,7 @@ for (var obj of menuItems) {
     const clone = node.cloneNode(true);
     clone.childNodes[1].textContent = obj.name;
     clone.childNodes[3].textContent = obj.course;
-    clone.childNodes[6].textContent = "Rs." + obj.price;
+    clone.childNodes[6].textContent = `Rs: ${obj.price}`;
     clone.setAttribute("id", menuId++);
 
     menuList[0].appendChild(clone);
@@ -263,4 +263,82 @@ function onDrop(event, num) {
         localStorage.setItem("table4", JSON.stringify(oldData));
     }
     window.location.reload();
+}
+
+// open specific modal when clicked
+function openModal(num) {
+    const modalHead = document.getElementById("table-num");
+    modalHead.innerHTML = `Table ${num}`
+
+    var modal = document.getElementById("myModal");
+
+    var span = document.getElementsByClassName("close")[0];
+
+    modal.style.display = "block";
+
+    const closeBill = document.getElementsByClassName('close-bill')[0];
+    closeBill.setAttribute("id", num);
+    closeBill.setAttribute("onclick", "generateBill(event)");
+    closeBill.style.cursor = "pointer";
+    closeBill.style.textAlign = "right";
+    console.log(closeBill);
+
+    display(num);
+
+    span.onclick = function () {
+        modal.style.display = "none";
+        window.location.reload();
+    }
+
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+            window.location.reload();
+        }
+
+    }
+}
+
+// displays the menu items ordered at specific table
+function display(num) {
+    let totalPrice = 0;
+    let tempArray = [];
+
+    let tableNum = "table" + num;
+    const tbody = document.getElementsByTagName("tbody");
+    let j = 1;
+    if (!localStorage.getItem(tableNum)) {
+        window.location.reload();
+    }
+    data = JSON.parse(localStorage.getItem(tableNum));
+    totalItems = data.length;
+    for (let obj of data) {
+        var inputNumber = document.createElement("input");
+        inputNumber.setAttribute("type", "number");
+        inputNumber.setAttribute("class", "quantity");
+        inputNumber.setAttribute("min", 1);
+        inputNumber.setAttribute("id", "" + num + j);
+        inputNumber.setAttribute("oninput", "updateQuantity(event)");
+
+
+        const node = document.getElementById("row");
+        const clone = node.cloneNode(true);
+        clone.childNodes[1].textContent = j++;
+        clone.childNodes[3].textContent = obj.name;
+        clone.childNodes[5].textContent = obj.price;
+        clone.childNodes[7].appendChild(inputNumber);
+        clone.childNodes[9].childNodes[0].setAttribute("id", "d" + num + (j - 1));
+        clone.childNodes[9].childNodes[0].setAttribute("onclick", "deleteItem(event)");
+
+        tbody[0].appendChild(clone);
+        tempArray.push(obj.quantity);
+        totalPrice = totalPrice + obj.quantity * obj.price;
+
+        document.getElementById("total").innerHTML = `Total Price: ${totalPrice}`;
+    }
+    const inputArray = document.getElementsByClassName("quantity");
+    for (let k = 0; k < inputArray.length; k++) {
+        inputArray[k].value = tempArray[k];
+    }
+
 }
