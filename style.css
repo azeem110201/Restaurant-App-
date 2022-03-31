@@ -73,6 +73,7 @@
 
 .table:hover {
     box-shadow: 3px 3px 7px #24dfc5;
+    cursor: pointer;
 }
 
 .menu-title h2 {
@@ -110,6 +111,7 @@
 
 .menu:hover {
     box-shadow: 5px 5px 8px #24dfc5;
+    cursor: pointer;
 }
 
 .menu p {

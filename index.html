@@ -24,19 +24,19 @@
             <div class="search-bar-table">
                 <input type="text" id="search-table" onkeyup=searchTable() placeholder="search tables">
             </div>
-            <div class="table">
+            <div class="table" ondragover=onDragOver(event) ondrop=onDrop(event,1)>
                 <h2>Table 1</h2><br>
                 <p id="table1"></p>
             </div>
-            <div class="table">
+            <div class="table" ondragover=onDragOver(event) ondrop=onDrop(event,2)>
                 <h2>Table 2</h2><br>
                 <p id="table2"></p>
             </div>
-            <div class="table">
+            <div class="table" ondragover=onDragOver(event) ondrop=onDrop(event,3)>
                 <h2>Table 3</h2><br>
                 <p id="table3"></p>
             </div>
-            <div class="table">
+            <div class="table" ondragover=onDragOver(event) ondrop=onDrop(event,4)>
                 <h2>Table 4</h2><br>
                 <p id="table4"></p>
             </div>
@@ -50,8 +50,11 @@
                 <input type="text" id="search-menu" placeholder="Search Menu" onkeyup=searchMenu()>
             </div>
             <div class="menu-list" id="menu-list-id">
-                <!-- <div class="menu" id="menu">
-                </div> -->
+                <div class="menu" draggable="true" ondragstart=drag(event)>
+                    <h2></h2>
+                    <h3></h3><br>
+                    <p></p>
+                </div>
             </div>
         </div>
     </div>

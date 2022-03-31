@@ -55,69 +55,119 @@ const menuItems = [
     }
 ];
 
-
-tables = [
-    {
-        price: 0,
-        items: 0
+const tableData = {
+    table1: {
+        totalItems: () => {
+            if (!localStorage.getItem("table1")) {
+                return 0;
+            }
+            const data = JSON.parse(localStorage.getItem("table1"));
+            return data.length;
+        },
+        totalPrice: () => {
+            if (!localStorage.getItem("table1")) {
+                return 0;
+            }
+            const data = JSON.parse(localStorage.getItem("table1"));
+            let price = 0;
+            for (let obj of data) {
+                price = price + obj.price * obj.quantity;
+            }
+            return price;
+        },
     },
-    {
-        price: 0,
-        items: 0
+    table2: {
+        totalItems: () => {
+            if (!localStorage.getItem("table2")) {
+                return 0;
+            }
+            const data = JSON.parse(localStorage.getItem("table2"));
+            return data.length;
+        },
+        totalPrice: () => {
+            if (!localStorage.getItem("table2")) {
+                return 0;
+            }
+            const data = JSON.parse(localStorage.getItem("table2"));
+            let price = 0;
+            for (let obj of data) {
+                price = price + obj.price * obj.quantity;
+            }
+            return price;
+        },
     },
-    {
-        price: 0,
-        items: 0
+    table3: {
+        totalItems: () => {
+            if (!localStorage.getItem("table3")) {
+                return 0;
+            }
+            const data = JSON.parse(localStorage.getItem("table3"));
+            return data.length;
+        },
+        totalPrice: () => {
+            if (!localStorage.getItem("table3")) {
+                return 0;
+            }
+            const data = JSON.parse(localStorage.getItem("table3"));
+            let price = 0;
+            for (let obj of data) {
+                price = price + obj.price * obj.quantity;
+            }
+            return price;
+        },
     },
-    {
-        price: 0,
-        items: 0
-    }
-];
-
-for(let i = 1; i <= 4; i++){
-    let id = "table" + i;
-    document.getElementById(id).innerText = `Rs: ${tables[0].price} | Items: ${tables[0].items}`
+    table4: {
+        totalItems: () => {
+            if (!localStorage.getItem("table4")) {
+                return 0;
+            }
+            const data = JSON.parse(localStorage.getItem("table4"));
+            return data.length;
+        },
+        totalPrice: () => {
+            if (!localStorage.getItem("table4")) {
+                return 0;
+            }
+            const data = JSON.parse(localStorage.getItem("table4"));
+            let price = 0;
+            for (let obj of data) {
+                price = price + obj.price * obj.quantity;
+            }
+            return price;
+        },
+    },
 }
 
+document.getElementById("table1").innerHTML = "Rs." + tableData.table1.totalPrice() + " " + "| " + tableData.table1.totalItems() + " items";
+document.getElementById("table2").innerHTML = "Rs." + tableData.table2.totalPrice() + " " + "| " + tableData.table2.totalItems() + " items";
+document.getElementById("table3").innerHTML = "Rs." + tableData.table3.totalPrice() + " " + "| " + tableData.table3.totalItems() + " items";
+document.getElementById("table4").innerHTML = "Rs." + tableData.table4.totalPrice() + " " + "| " + tableData.table4.totalItems() + " items";
+
+// Rendering the menu items
 let menuId = 0;
+const menuList = document.getElementsByClassName("menu-list");
+for (var obj of menuItems) {
+    const node = document.getElementsByClassName("menu")[0];
+    const clone = node.cloneNode(true);
+    clone.childNodes[1].textContent = obj.name;
+    clone.childNodes[3].textContent = obj.course;
+    clone.childNodes[6].textContent = "Rs." + obj.price;
+    clone.setAttribute("id", menuId++);
 
-// populate the menuList to the page
-for (let i = 0; i < menuItems.length; i++) {
-    const div = document.createElement("div");
-    div.setAttribute("class", "menu");
-    div.setAttribute("id", ++menuId);
-
-    const h2 = document.createElement("h2");
-    const h2_node = document.createTextNode(menuItems[i].name);
-
-    const h4 = document.createElement("h4");
-    const h4_node = document.createTextNode(menuItems[i].course);
-
-    const p = document.createElement("p");
-    const p_node = document.createTextNode(menuItems[i].price);
-
-    h2.appendChild(h2_node);
-    h4.appendChild(h4_node);
-    p.appendChild(p_node);
-
-    div.appendChild(h2);
-    div.appendChild(h4);
-    div.appendChild(p);
-
-    document.getElementById("menu-list-id").appendChild(div);
+    menuList[0].appendChild(clone);
 }
+menuList[0].children[0].style.display = "none";
+
 
 // search Menu List
 const searchMenu = () => {
-    let filter = document.getElementById("search-menu").value.toUpperCase();
-
+    const searchInput = document.getElementById("search-menu");
+    let filterValue = searchInput.value.toUpperCase();
     for (let i = 0; i < menuItems.length; i++) {
-        if ((menuItems[i].name.toUpperCase().indexOf(filter) > -1) || (menuItems[i].course.toUpperCase().indexOf(filter) > -1)) {
-            document.getElementById(i + 1).style.display = "";
-        }
-        else {
-            document.getElementById(i + 1).style.display = "none";
+        if ((menuItems[i].course.toUpperCase().indexOf(filterValue) > -1) || menuItems[i].name.toUpperCase().indexOf(filterValue) > -1) {
+            document.getElementById(i).style.display = "";
+        } else {
+            document.getElementById(i).style.display = "none";
         }
     }
 }
@@ -127,15 +177,90 @@ const searchTable = () => {
     let filter = document.getElementById("search-table").value.toUpperCase();
 
     const tables = document.getElementsByClassName("table");
-    
-    for(let i = 0; i < tables.length; i++){
+
+    for (let i = 0; i < tables.length; i++) {
         let temp = tables[i].getElementsByTagName("h2")[0];
         let content = temp.textContent;
-        if(content.toUpperCase().indexOf(filter) > -1){
+        if (content.toUpperCase().indexOf(filter) > -1) {
             tables[i].style.display = "";
-        }else {
+        } else {
             tables[i].style.display = "none";
         }
     }
 }
 
+// functionality for dragging and dropping
+function drag(event) {
+    event.dataTransfer.setData("text", event.target.id);
+}
+
+function onDragOver(event) {
+    event.preventDefault();
+}
+
+function onDrop(event, num) {
+    const targetId = event.dataTransfer.getData("text");
+
+    if (num === 1) {
+        if (!localStorage.getItem("table1")) {
+            localStorage.setItem("table1", '[]');
+        }
+        let oldData = JSON.parse(localStorage.getItem("table1"));
+        for (let i = 0; i < oldData.length; i++) {
+            if (oldData[i].name === menuItems[targetId].name) {
+                oldData[i].quantity = parseInt(oldData[i].quantity) + 1;
+                localStorage.setItem("table1", JSON.stringify(oldData));
+                window.location.reload();
+                return;
+            }
+        }
+        oldData.push(menuItems[targetId]);
+        localStorage.setItem("table1", JSON.stringify(oldData));
+    } else if (num === 2) {
+        if (!localStorage.getItem("table2")) {
+            localStorage.setItem("table2", '[]');
+        }
+        let oldData = JSON.parse(localStorage.getItem("table2"));
+        for (let i = 0; i < oldData.length; i++) {
+            if (oldData[i].name === menuItems[targetId].name) {
+                oldData[i].quantity = parseInt(oldData[i].quantity) + 1;
+                localStorage.setItem("table2", JSON.stringify(oldData));
+                window.location.reload();
+                return;
+            }
+        }
+        oldData.push(menuItems[targetId]);
+        localStorage.setItem("table2", JSON.stringify(oldData));
+    } else if (num === 3) {
+        if (!localStorage.getItem("table3")) {
+            localStorage.setItem("table3", '[]');
+        }
+        let oldData = JSON.parse(localStorage.getItem("table3"));
+        for (let i = 0; i < oldData.length; i++) {
+            if (oldData[i].name === menuItems[targetId].name) {
+                oldData[i].quantity = parseInt(oldData[i].quantity) + 1;
+                localStorage.setItem("table3", JSON.stringify(oldData));
+                window.location.reload();
+                return;
+            }
+        }
+        oldData.push(menuItems[targetId]);
+        localStorage.setItem("table3", JSON.stringify(oldData));
+    } else if (num === 4) {
+        if (!localStorage.getItem("table4")) {
+            localStorage.setItem("table4", '[]');
+        }
+        let oldData = JSON.parse(localStorage.getItem("table4"));
+        for (let i = 0; i < oldData.length; i++) {
+            if (oldData[i].name === menuItems[targetId].name) {
+                oldData[i].quantity = parseInt(oldData[i].quantity) + 1;
+                localStorage.setItem("table4", JSON.stringify(oldData));
+                window.location.reload();
+                return;
+            }
+        }
+        oldData.push(menuItems[targetId]);
+        localStorage.setItem("table4", JSON.stringify(oldData));
+    }
+    window.location.reload();
+}
