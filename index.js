@@ -55,6 +55,31 @@ const menuItems = [
     }
 ];
 
+
+tables = [
+    {
+        price: 0,
+        items: 0
+    },
+    {
+        price: 0,
+        items: 0
+    },
+    {
+        price: 0,
+        items: 0
+    },
+    {
+        price: 0,
+        items: 0
+    }
+];
+
+for(let i = 1; i <= 4; i++){
+    let id = "table" + i;
+    document.getElementById(id).innerText = `Rs: ${tables[0].price} | Items: ${tables[0].items}`
+}
+
 let menuId = 0;
 
 // populate the menuList to the page
@@ -93,6 +118,23 @@ const searchMenu = () => {
         }
         else {
             document.getElementById(i + 1).style.display = "none";
+        }
+    }
+}
+
+// search Table List
+const searchTable = () => {
+    let filter = document.getElementById("search-table").value.toUpperCase();
+
+    const tables = document.getElementsByClassName("table");
+    
+    for(let i = 0; i < tables.length; i++){
+        let temp = tables[i].getElementsByTagName("h2")[0];
+        let content = temp.textContent;
+        if(content.toUpperCase().indexOf(filter) > -1){
+            tables[i].style.display = "";
+        }else {
+            tables[i].style.display = "none";
         }
     }
 }
