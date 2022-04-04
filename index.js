@@ -266,9 +266,9 @@ function onDrop(event, num) {
 }
 
 // open specific modal when clicked
-function openModal(num) {
+function openModal(num){
     const modalHead = document.getElementById("table-num");
-    modalHead.innerHTML = `Table ${num}`
+    modalHead.innerHTML = "Table " + num + " ";
 
     var modal = document.getElementById("myModal");
 
@@ -277,25 +277,25 @@ function openModal(num) {
     modal.style.display = "block";
 
     const closeBill = document.getElementsByClassName('close-bill')[0];
-    closeBill.setAttribute("id", num);
-    closeBill.setAttribute("onclick", "generateBill(event)");
+    closeBill.setAttribute("id",num);
+    closeBill.setAttribute("onclick","generateBill(event)");
     closeBill.style.cursor = "pointer";
     closeBill.style.textAlign = "right";
     console.log(closeBill);
 
     display(num);
 
-    span.onclick = function () {
+    span.onclick = function() {
         modal.style.display = "none";
         window.location.reload();
     }
 
-    window.onclick = function (event) {
+    window.onclick = function(event) {
         if (event.target == modal) {
-            modal.style.display = "none";
-            window.location.reload();
+             modal.style.display = "none";
+             window.location.reload();
         }
-
+       
     }
 }
 
@@ -327,7 +327,7 @@ function display(num) {
         clone.childNodes[3].textContent = obj.name;
         clone.childNodes[5].textContent = obj.price;
         clone.childNodes[7].appendChild(inputNumber);
-        clone.childNodes[9].childNodes[0].setAttribute("id", "d" + num + (j - 1));
+        clone.childNodes[9].childNodes[0].setAttribute("id", "" + num + (j - 1));
         clone.childNodes[9].childNodes[0].setAttribute("onclick", "deleteItem(event)");
 
         tbody[0].appendChild(clone);
@@ -341,4 +341,97 @@ function display(num) {
         inputArray[k].value = tempArray[k];
     }
 
+}
+
+// closes the session and generate the bill 
+function generateBill(event) {
+    const table = event.target.id;
+    const tableName = "table" + table;
+    const data = JSON.parse(localStorage.getItem(tableName));
+    let totalPrice = 0;
+    console.log("Item\tPrice\tQuantity\tTotal");
+    let displayAlert = "Item - Price - Quantity - Total\n";
+    for (let item of data) {
+        totalPrice = totalPrice + item.price * item.quantity;
+        console.log(item.name + "\t" + item.price + "\t" + item.quantity + "\t" + (item.price * item.quantity));
+        displayAlert = displayAlert + item.name + " - " + item.price + " - " + item.quantity + " - " + (item.price * item.quantity) + "\n";
+    }
+    console.log("Total Price:\t" + totalPrice);
+    localStorage.removeItem(tableName);
+    displayAlert = displayAlert + "Total Price: " + totalPrice + "\n";
+    alert(displayAlert);
+    window.location.reload();
+}
+
+// deleting the item from the list of servings
+function deleteItem(event) {
+    const table = event.target.id[0];
+    const item = event.target.id[1];
+
+    if (table == 1) {
+        const data = JSON.parse(localStorage.table1);
+        const index = data.indexOf(data[item - 1]);
+        if (index > -1) {
+            data.splice(index, 1);
+        }
+        localStorage.setItem("table1", JSON.stringify(data));
+        document.getElementById("total").innerHTML = "Total Rs." + tableData.table1.totalPrice();
+
+    } else if (table == 2) {
+        const data = JSON.parse(localStorage.table2);
+        const index = data.indexOf(data[item - 1]);
+        if (index > -1) {
+            data.splice(index, 1);
+        }
+        localStorage.setItem("table2", JSON.stringify(data));
+        document.getElementById("total").innerHTML = "Total Rs." + tableData.table1.totalPrice();
+
+    } else if (table == 3) {
+        const data = JSON.parse(localStorage.table3);
+        const index = data.indexOf(data[item - 1]);
+        if (index > -1) {
+            data.splice(index, 1);
+        }
+        localStorage.setItem("table3", JSON.stringify(data));
+        document.getElementById("total").innerHTML = "Total Rs." + tableData.table1.totalPrice();
+
+    } else if (table == 4) {
+        const data = JSON.parse(localStorage.table4);
+        const index = data.indexOf(data[item - 1]);
+        if (index > -1) {
+            data.splice(index, 1);
+        }
+        localStorage.setItem("table4", JSON.stringify(data));
+        document.getElementById("total").innerHTML = "Total Rs." + tableData.table1.totalPrice();
+
+    }
+
+    window.location.reload();
+}
+
+// updating the quantity of an item at particular table
+function updateQuantity(event) {
+    const num = event.target.id[1];
+
+    if (event.target.id[0] == 1) {
+        const data = JSON.parse(localStorage.table1);
+        data[num - 1].quantity = event.target.value;
+        localStorage.setItem("table1", JSON.stringify(data));
+        document.getElementById("total").innerHTML = "Total Rs." + tableData.table1.totalPrice();
+    } else if (event.target.id[0] == 2) {
+        const data = JSON.parse(localStorage.table2);
+        data[num - 1].quantity = event.target.value;
+        localStorage.setItem("table2", JSON.stringify(data));
+        document.getElementById("total").innerHTML = "Total Rs." + tableData.table2.totalPrice();
+    } else if (event.target.id[0] == 3) {
+        const data = JSON.parse(localStorage.table3);
+        data[num - 1].quantity = event.target.value;
+        localStorage.setItem("table3", JSON.stringify(data));
+        document.getElementById("total").innerHTML = "Total Rs." + tableData.table3.totalPrice();
+    } else if (event.target.id[0] == 4) {
+        const data = JSON.parse(localStorage.table4);
+        data[num - 1].quantity = event.target.value;
+        localStorage.setItem("table4", JSON.stringify(data));
+        document.getElementById("total").innerHTML = "Total Rs." + tableData.table4.totalPrice();
+    }
 }

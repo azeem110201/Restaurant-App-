@@ -197,3 +197,57 @@ thead {
     text-align:right;
     font-size: 20px;
 }
+
+@media only screen and (max-width: 1024px){
+    #search-menu {
+        width: 40vw;
+    }
+}
+@media only screen and (max-width: 800px){
+    .main-content {
+        display: flex;
+        flex-direction: column;
+        align-content: space-between;
+    }
+    .table-content {
+        width: 70vw;
+        border: none;
+        margin: 0 auto;
+    }
+    .menu-content {
+        width: 90vw;
+        height: 80vh;
+        margin: 0 auto;
+    }
+    #search-table {
+        width: 60vw;
+    }
+    
+    #search-menu {
+        width: 70vw;
+    }
+}
+
+@media only screen and (max-width: 500px){
+    .table-content {
+        width: 80vw;
+        margin: 0 auto;
+    }
+    .menu-content {
+        width: 90vw;
+        height: 80vh;
+        margin: 0 auto;
+    }
+}
+
+@media only screen and (max-width: 375px){
+    .table-content {
+        width: 90vw;
+        margin: 0 auto;
+    }
+    .menu-content {
+        width: 95vw;
+        height: 80vh;
+        margin: 0 auto;
+    }
+}
